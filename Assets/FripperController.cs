@@ -31,24 +31,23 @@ public class FripperController : MonoBehaviour
         {
             Touch touch = Input.touches[i];
 
-            if (touch.position.x < Screen.width / 2 && touch.phase == TouchPhase.Began && tag == "LeftFripperTag")
+            if (touch.position.x < Screen.width / 2 && touch.phase == TouchPhase.Began && tag == "LeftFripperTag")          //画面の左をタップした時、左のフリッパーを動かす
             {
                 SetAngle(this.flickAngle);
             }
-            else if(touch.position.x < Screen.width / 2 && touch.phase == TouchPhase.Ended && tag == "LeftFripperTag")
+            else if(touch.position.x < Screen.width / 2 && touch.phase == TouchPhase.Ended && tag == "LeftFripperTag")      //画面の左を離した時、左のフリッパーを元に戻す
             {
                 SetAngle(this.defaultAngle);
             }
 
-            if (touch.position.x > Screen.width / 2 && touch.phase == TouchPhase.Began && tag == "RightFripperTag")
+            if (touch.position.x > Screen.width / 2 && touch.phase == TouchPhase.Began && tag == "RightFripperTag")         //画面の右をタップした時、右のフリッパーを動かす
             {
                 SetAngle(this.flickAngle);
             }
-            else if (touch.position.x > Screen.width / 2 && touch.phase == TouchPhase.Ended && tag == "RightFripperTag")
+            else if (touch.position.x > Screen.width / 2 && touch.phase == TouchPhase.Ended && tag == "RightFripperTag")    //画面の右を離した時、右のフリッパーを元に戻す
             {
                 SetAngle(this.defaultAngle);
             }
-
 
         }
     }
