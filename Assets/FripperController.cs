@@ -27,41 +27,18 @@ public class FripperController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //左矢印キーまたは「A」キーを押したとき左フリッパーを動かす
-        if ((Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) && tag == "LeftFripperTag")
+        for (int i = 0; i < Input.touches.Length; i++)
         {
-            SetAngle(this.flickAngle);
-        }
-        
-        //右矢印キーまたは「D」キーを押したとき右フリッパーを動かす
-        if ((Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) && tag == "RightFripperTag")
-        {
-            SetAngle(this.flickAngle);
-        }
+            Touch touch = Input.touches[i];
 
-        //下矢印キーまたは「S」キーを押したとき左右のフリッパーを動かす
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-        {
-            SetAngle(this.flickAngle);
-        }
-
-
-        //左矢印キーまたは「A」キーを離したとき左フリッパーを元に戻す
-        if ((Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.A)) && tag == "LeftFripperTag")
-        {
-            SetAngle(this.defaultAngle);
-        }
-
-        //右矢印キーまたは「D」キーを離したとき左フリッパーを元に戻す
-        if ((Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.D)) && tag == "RightFripperTag")
-        {
-            SetAngle(this.defaultAngle);
-        }
-
-        //下矢印キーまたは「S」キーを離したとき左右のフリッパーを元に戻す
-        if (Input.GetKeyUp(KeyCode.DownArrow) || Input.GetKeyUp(KeyCode.S))
-        {
-            SetAngle(this. defaultAngle);
+            if (touch.phase == TouchPhase.Began)
+            {
+                TouchBegan();
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                TouchEnded();
+            }
         }
     }
 
@@ -71,5 +48,37 @@ public class FripperController : MonoBehaviour
         JointSpring jointSpr = this.myHingeJoint.spring;
         jointSpr.targetPosition = angle;
         this.myHingeJoint.spring = jointSpr;
+    }
+
+    void TouchBegan()
+    {
+        if ((Input.mousePosition.x < Screen.width / 2) && tag == "LeftFripperTag")      //画面の左をタップした時、左のフリッパーを動かす
+        {
+            SetAngle(this.flickAngle);
+        }
+        if ((Input.mousePosition.x > Screen.width / 2) && tag == "RightFripperTag")     //画面の右をタップした時、右のフリッパーを動かす
+        {
+            SetAngle(this.flickAngle);
+        }
+        if (Input.touchCount > 1 && Input.GetTouch(1).phase == TouchPhase.Began)         //画面の左右を同時にタップした時、左右同時にフリッパーを動かす
+        {
+            SetAngle(this.flickAngle);
+        }
+    }
+
+    void TouchEnded()
+    {
+        if ((Input.mousePosition.x < Screen.width / 2) && tag == "LeftFripperTag")      //画面の左を離した時、左のフリッパーを元に戻す
+        {
+            SetAngle(this.defaultAngle);
+        }
+        if ((Input.mousePosition.x > Screen.width / 2) && tag == "RightFripperTag")     //画面の右を離した時、右のフリッパーを元に戻す
+        {
+            SetAngle(this.defaultAngle);
+        }
+        if (Input.touchCount > 1 && Input.GetTouch(1).phase == TouchPhase.Ended)        //画面の左右を同時に離した時、左右同時にフリッパーを元に戻す
+        {
+            SetAngle(this.defaultAngle);
+        }
     }
 }
